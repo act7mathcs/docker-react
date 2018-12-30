@@ -18,6 +18,8 @@ class App extends Component {
             rel="noopener noreferrer"
           >
             Hello world! Learn React.
+            <br />
+            I was changed on the feature branch.
           </a>
         </header>
       </div>
