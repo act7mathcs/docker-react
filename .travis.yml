@@ -1,0 +1,16 @@
+# This file tells Travis CI what to do when we push a new commit up to Github. It will clone all of our code and then use the below directions to build the docker image, run some tests, and then report whether the tests succeeded or failed.
+
+sudo: required
+
+# Need docker CLI, so Travis CI will install docker in our container.
+services:
+  - docker
+
+# Build our docker image. We tag it with the name act7mathcs/docker-react.
+before_install:
+  - docker build -t act7mathcs/docker-react -f Dockerfile.dev .
+
+# Executes commands to run the test suite. If the return status code is anything other than 0, Travis CI will assume the code is broken. The -- --coverage makes sure the test suite runs and then exits back to the command line (instead of waiting for user input at the menu).
+script:
+  - docker run act7mathcs/docker-react npm run test -- --coverage
+
