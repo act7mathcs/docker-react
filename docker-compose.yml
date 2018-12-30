@@ -1,0 +1,25 @@
+version: '3'
+
+# Note that since our docker dev file has .dev at the end, we specify two options for the build property.
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - .:/app
+  # Our second service (another container) lets our testing service automatically update any changes in the code.
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"]
+
+
+

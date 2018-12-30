@@ -1,0 +1,26 @@
+# This Dockerfile is only used for a dev environment (running locally). To build this (since it has a .dev at the end instead of just being called Dockerfile), we run: docker build -f Dockerfile.dev . (note the .).
+# Note that we can delete our node_modules folder since it will be in our docker container.
+
+# We can access our docker container server with: docker run -p 3000:3000 <image id>.
+# If we want to set up a reference volume so our container will automatically update (even while running) when we change code in our local files, we run with: docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app <image id>. Note that since we deleted our local node_modules folder, we have to include the first -v argument (which causes docker to not try to map our container's node_modules folder with anything on our local machine).
+
+# Since we also set up a docker-compose file, we can now also run our container with the simpler syntax of: docker compose up. Note that the yml file uses this dockerfile to help build the container. We just use docker-compose to shorten the syntax of starting the container.
+
+FROM node:alpine
+
+
+WORKDIR /app
+
+
+COPY package.json .
+RUN npm install
+# Although the COPY below isn't necessary since we're using volume mounts, we're keeping it in case we decide to stop using volumes in the future.
+COPY . .
+
+
+CMD ["npm", "run", "start"]
+
+# To run a test, we use (assuming the container is built but not running): docker run -it <image id> npm run test. This causes the container to run the test when it first starts up.
+
+
+
