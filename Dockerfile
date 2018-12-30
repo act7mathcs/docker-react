@@ -15,6 +15,8 @@ RUN npm run build
 
 # The below is the run phase. We don't have to specify this phase because the second FROM statement indicates this.
 FROM nginx
+# The below exposes the port in the docker container when it is deployed on AWS. Note that the Expose instruction is only useful because Elastic Beanstalk looks for this EXPOSE instruction and uses it to map for incoming traffic.
+EXPOSE 80
 # The --from=builder indicates we're copying from the builder phase. We're copying from the folder /app/build to /usr/share/nginx/html (we got this url from the nginx documentation).
 COPY --from=builder /app/build /usr/share/nginx/html
 
