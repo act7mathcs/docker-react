@@ -14,3 +14,17 @@ before_install:
 script:
   - docker run act7mathcs/docker-react npm run test -- --coverage
 
+# After the test is passed, we deploy the build version to AWS. Travis CI will take all files from the Github repo and copy them as a zip to an S3 bucket.
+deploy:
+  provider: elasticbeanstalk
+  region: "us-west-1"
+  app: "docker-react"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-us-west-1-834022607075"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
+
