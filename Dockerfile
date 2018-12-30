@@ -20,5 +20,5 @@ EXPOSE 80
 # The --from=builder indicates we're copying from the builder phase. We're copying from the folder /app/build to /usr/share/nginx/html (we got this url from the nginx documentation).
 COPY --from=builder /app/build /usr/share/nginx/html
 
-
+# To checkout a new branch: git checkout -b feature (where feature is what we call the branch). Then add change with: git add . Commit the change with: git commit -m "changed app text". Then push to the feature branch with: git push origin feature.
 
